@@ -1,5 +1,6 @@
 import CustomButton from "@/components/CustomButton";
 import CustomInput from "@/components/CustomInput";
+import { createUser } from "@/lib/appwrite";
 import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import { Alert, Text, View } from "react-native";
@@ -14,7 +15,11 @@ export default function SignUp() {
       );
     setIsSubmitting(true);
     try {
-      Alert.alert("Success", "User signed up successfully.");
+      await createUser({
+        email: form.email,
+        password: form.password,
+        name: form.name,
+      });
       router.replace("/");
     } catch (error: any) {
       Alert.alert("Error", error.message);
