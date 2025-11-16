@@ -38,7 +38,7 @@
   }
 
   .custom-btn {
-    @apply bg-primary rounded-full p-3 w-full flex flex-row justify-center;
+    @apply bg-primary text-white rounded-full p-3 w-full flex flex-row justify-center;
   }
 
   .custom-header {
