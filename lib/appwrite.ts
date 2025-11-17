@@ -91,7 +91,7 @@ export async function getCategories() {
       appwriteConfig.databaseId,
       appwriteConfig.categoriesCollectionId
     );
-    return categories;
+    return categories.documents;
   } catch (error) {
     throw new Error(error as string);
   }

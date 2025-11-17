@@ -1,6 +1,10 @@
 import CartButton from "@/components/CartButton";
+import Filter from "@/components/Filter";
+import MenuCard from "@/components/MenuCard";
+import SearchBar from "@/components/SearchBar";
 import { getCategories, getMenu } from "@/lib/appwrite";
 import useAppwrite from "@/lib/useAppwrite";
+import { Category, MenuItem } from "@/type";
 import cn from "clsx";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect } from "react";
@@ -37,7 +41,7 @@ export default function Search() {
                 isFirstRightColItem ? "mt-10" : "mt-0"
               )}
             >
-              <Text>{item.name}</Text>
+              <MenuCard item={item as unknown as MenuItem} />
             </View>
           );
         }}
@@ -60,8 +64,8 @@ export default function Search() {
               </View>
               <CartButton />
             </View>
-            <Text>Search Input</Text>
-            <Text>Filter</Text>
+            <SearchBar />
+            <Filter categories={categories as unknown as Category[]} />
           </View>
         )}
         ListEmptyComponent={() =>
