@@ -1,4 +1,9 @@
-import { CreateUserParams, GetMenuParams, SignInParams } from "@/type";
+import {
+  CreateUserParams,
+  GetMenuParams,
+  MenuItem,
+  SignInParams,
+} from "@/type";
 import {
   Account,
   Avatars,
@@ -94,5 +99,19 @@ export async function getCategories() {
     return categories.documents;
   } catch (error) {
     throw new Error(error as string);
+  }
+}
+export async function getMenuById({ id }: { id: string }) {
+  try {
+    const menu = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.menuCollectionId,
+      id
+    );
+
+    return menu as unknown as MenuItem;
+  } catch (err: any) {
+    console.log("❌ ERROR:", err.message);
+    return null;
   }
 }

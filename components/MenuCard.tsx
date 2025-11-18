@@ -1,5 +1,6 @@
 import { useCartStore } from "@/store/cart.store";
 import { MenuItem } from "@/type";
+import { router } from "expo-router";
 import React from "react";
 import { Image, Platform, Text, TouchableOpacity } from "react-native";
 
@@ -7,6 +8,7 @@ export default function MenuCard({ item }: { item: MenuItem }) {
   const { addItem } = useCartStore();
   return (
     <TouchableOpacity
+      onPress={() => router.push(`/detail/${item.$id.toString()}`)}
       className="menu-card"
       style={
         Platform.OS === "android"
