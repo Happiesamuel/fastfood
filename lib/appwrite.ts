@@ -12,12 +12,12 @@ import {
   ID,
   Query,
   Storage,
-} from "react-native-appwrite";
+} from "appwrite";
 
 export const appwriteConfig = {
-  endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
+  endpoint: "https://fra.cloud.appwrite.io/v1",
   platform: "com.jsm.foodordering",
-  projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
+  projectId: "687799690009f922b7de",
   databaseId: "6919e88d0010740fe9a3",
   userCollectionId: "user",
   categoriesCollectionId: "categories",
@@ -29,8 +29,8 @@ export const appwriteConfig = {
 const client = new Client();
 client
   .setEndpoint(appwriteConfig.endpoint!)
-  .setProject(appwriteConfig.projectId!)
-  .setPlatform(appwriteConfig.platform!);
+  .setProject(appwriteConfig.projectId!);
+// .setPlatform(appwriteConfig.platform!);
 
 export const account = new Account(client);
 export const databases = new Databases(client);
@@ -41,7 +41,8 @@ export async function createUser({ name, email, password }: CreateUserParams) {
     const newAccount = await account.create(ID.unique(), email, password, name);
     if (!newAccount) throw Error;
     await SignInFun({ email, password });
-    const avatarUrl = avatars.getInitialsURL(name);
+    const avatarUrl = avatars.getInitials("John Doe");
+
     const newUser = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,

@@ -1,41 +1,42 @@
 import { getCurrentUser } from "@/lib/appwrite";
-import { User } from "@sentry/react-native";
+import { User } from "@/type";
 import { create } from "zustand";
+
 type AuthState = {
   isAuthenticated: boolean;
   user: User | null;
   isLoading: boolean;
+
   setIsAuthenticated: (value: boolean) => void;
-  setUser: (User: User | null) => void;
+  setUser: (user: User | null) => void;
   setLoading: (loading: boolean) => void;
-  fetchAuthenticatedUser: () => void;
+
+  fetchAuthenticatedUser: () => Promise<void>;
 };
+
 const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
-  isLoading: true,
   user: null,
-  setIsAuthenticated(value) {
-    set({ isAuthenticated: value });
-  },
-  setUser(user) {
-    set({ user });
-  },
-  setLoading(value) {
-    set({ isLoading: value });
-  },
+  isLoading: true,
+
+  setIsAuthenticated: (value) => set({ isAuthenticated: value }),
+  setUser: (user) => set({ user }),
+  setLoading: (value) => set({ isLoading: value }),
+
   fetchAuthenticatedUser: async () => {
     set({ isLoading: true });
+
     try {
-      const user = await getCurrentUser();
-      if (user) {
-        set({ user: user as User, isAuthenticated: true });
-      } else set({ user: null, isAuthenticated: false });
-    } catch (error) {
-      console.log(error);
+      const user = await getCurrentUser(); console.log(user)
+      if (user) set({ isAuthenticated: true, user: user as unknown as User });
+      else set({ isAuthenticated: false, user: null });
+    } catch (e) {
+      console.log("fetchAuthenticatedUser error", e);
       set({ isAuthenticated: false, user: null });
     } finally {
       set({ isLoading: false });
     }
   },
 }));
+
 export default useAuthStore;
